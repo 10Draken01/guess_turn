@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guess_turn/presentation/widgets/custom_text.dart';
 import 'package:provider/provider.dart';
 import '../providers/game_provider.dart';
 import '../widgets/player_scoreboard.dart';
@@ -11,7 +12,7 @@ class GameScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('GuessTurn - Partida'),
+        title: const CustomText(text: 'GuessTurn - Configuración'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           PopupMenuButton<String>(
@@ -33,7 +34,7 @@ class GameScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.refresh, color: Colors.blue),
                     SizedBox(width: 8),
-                    Text('Reiniciar Partida'),
+                    CustomText(text: 'Reiniciar Partida'),
                   ],
                 ),
               ),
@@ -43,7 +44,7 @@ class GameScreen extends StatelessWidget {
                   children: [
                     Icon(Icons.home, color: Colors.green),
                     SizedBox(width: 8),
-                    Text('Nueva Configuración'),
+                    CustomText(text: 'Nueva Configuración'),
                   ],
                 ),
               ),
@@ -55,7 +56,10 @@ class GameScreen extends StatelessWidget {
         builder: (context, gameProvider, child) {
           if (!gameProvider.isGameStarted) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: CircularProgressIndicator(),
+              ),
             );
           }
 
@@ -66,7 +70,7 @@ class GameScreen extends StatelessWidget {
               
               // Game area
               Expanded(
-                child: Padding(
+                child: SingleChildScrollView(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -84,21 +88,16 @@ class GameScreen extends StatelessWidget {
                         ),
                         child: Column(
                           children: [
-                            const Text(
-                              'Turno de:',
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            const CustomText(
+                              text: 'Turno de:',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
                             ),
                             const SizedBox(height: 10),
-                            Text(
-                              gameProvider.currentPlayer.name,
-                              style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).primaryColor,
-                              ),
+                            CustomText(
+                              text: gameProvider.currentPlayer.name,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
                             ),
                           ],
                         ),
@@ -126,15 +125,13 @@ class GameScreen extends StatelessWidget {
                                   : Colors.orange,
                             ),
                           ),
-                          child: Text(
-                            gameProvider.lastGuessMessage!,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: gameProvider.lastGuessMessage!.contains('ganado')
-                                  ? Colors.green[800]
-                                  : Colors.orange[800],
-                            ),
+                          child: CustomText(
+                            text: gameProvider.lastGuessMessage!,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: gameProvider.lastGuessMessage!.contains('ganado')
+                              ? Colors.green[800]!
+                              : Colors.orange[800]!,
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -154,19 +151,19 @@ class GameScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Reiniciar Partida'),
-          content: const Text('¿Estás seguro de que quieres reiniciar la partida? Se reiniciarán todas las victorias.'),
+          title: const CustomText(text: 'Reiniciar Partida'),
+          content: const CustomText(text: '¿Estás seguro de que quieres reiniciar la partida? Se reiniciarán todas las victorias.'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar'),
+              child: const CustomText(text: 'Cancelar'),
             ),
             TextButton(
               onPressed: () {
                 gameProvider.resetGame();
                 Navigator.of(context).pop();
               },
-              child: const Text('Reiniciar'),
+              child: const CustomText(text: 'Reiniciar'),
             ),
           ],
         );
@@ -179,12 +176,12 @@ class GameScreen extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Nueva Configuración'),
-          content: const Text('¿Quieres volver a la pantalla de configuración para cambiar jugadores?'),
+          title: const CustomText(text: 'Nueva Configuración'),
+          content: const CustomText(text: '¿Quieres volver a la pantalla de configuración para cambiar jugadores?'),
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancelar'),
+              child: const CustomText(text: 'Cancelar'),
             ),
             TextButton(
               onPressed: () {
@@ -192,7 +189,7 @@ class GameScreen extends StatelessWidget {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop();
               },
-              child: const Text('Sí, cambiar'),
+              child: const CustomText(text: 'Sí, cambiar'),
             ),
           ],
         );

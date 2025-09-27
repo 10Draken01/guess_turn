@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:guess_turn/presentation/screens/game_screen%20.dart';
+import 'package:guess_turn/presentation/screens/game_screen.dart';
+import 'package:guess_turn/presentation/widgets/custom_text.dart';
 import 'package:provider/provider.dart';
 import '../providers/game_provider.dart';
 
@@ -60,7 +61,7 @@ class _SetupScreenState extends State<SetupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('GuessTurn - Configuración'),
+        title: const CustomText(text: 'GuessTurn - Configuración'),
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       ),
       body: SingleChildScrollView(
@@ -70,27 +71,26 @@ class _SetupScreenState extends State<SetupScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                '¡Bienvenido a GuessTurn!',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+              const CustomText(
+                text: '¡Bienvenido a GuessTurn!', 
+                fontSize: 24, 
+                fontWeight: FontWeight.bold
               ),
+
               const SizedBox(height: 10),
-              const Text(
-                'Un juego donde debes adivinar un número del 0 al 10. ¡El primero en acertarlo gana!',
-                style: TextStyle(fontSize: 16),
+
+              const CustomText(
+                text: 'Un juego donde debes adivinar un número del 0 al 10. ¡El primero en acertarlo gana!', 
+                fontSize: 16
               ),
+
               const SizedBox(height: 30),
               
-              const Text(
-                '¿Cuántos jugadores van a participar?',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+              const CustomText(
+                text: '¿Cuántos jugadores van a participar?', 
+                fontSize: 18
               ),
+
               const SizedBox(height: 15),
               
               Row(
@@ -103,13 +103,12 @@ class _SetupScreenState extends State<SetupScreen> {
               
               const SizedBox(height: 30),
               
-              const Text(
-                'Nombres de los jugadores:',
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                ),
+              const CustomText(
+                text: 'Nombres de los jugadores:', 
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
               ),
+
               const SizedBox(height: 15),
               
               ..._buildNameInputs(),
@@ -125,9 +124,9 @@ class _SetupScreenState extends State<SetupScreen> {
                     backgroundColor: Theme.of(context).primaryColor,
                     foregroundColor: Colors.white,
                   ),
-                  child: const Text(
-                    'Iniciar Partida',
-                    style: TextStyle(fontSize: 18),
+                  child: const CustomText(
+                    text: 'Iniciar Partida', 
+                    fontSize: 18
                   ),
                 ),
               ),
@@ -153,14 +152,12 @@ class _SetupScreenState extends State<SetupScreen> {
             ),
           ),
           child: Center(
-            child: Text(
-              '$count Jugadores',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.white : Colors.black87,
-              ),
-            ),
+            child: CustomText(
+              text: '$count Jugadores',
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: isSelected ? Colors.white : Colors.black87
+            )
           ),
         ),
       ),

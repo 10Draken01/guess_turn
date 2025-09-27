@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guess_turn/presentation/widgets/custom_text.dart';
 import 'package:provider/provider.dart';
 import '../providers/game_provider.dart';
 
@@ -16,7 +17,7 @@ class PlayerScoreboard extends StatelessWidget {
             color: Theme.of(context).primaryColor,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 4,
                 offset: const Offset(0, 2),
               ),
@@ -24,13 +25,11 @@ class PlayerScoreboard extends StatelessWidget {
           ),
           child: Column(
             children: [
-              const Text(
-                'Marcador',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+              const CustomText(
+                text: 'Marcador',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
               const SizedBox(height: 15),
               if (gameProvider.players.length <= 2)
@@ -88,46 +87,56 @@ class PlayerScoreboard extends StatelessWidget {
               ),
               const SizedBox(width: 5),
               Flexible(
-                child: Text(
-                  player.name,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: isCurrentPlayer ? Colors.amber[700] : Colors.black87,
-                  ),
+                child: CustomText(
+                  text: player.name,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: isCurrentPlayer
+                  ? Colors.amber[700]! 
+                  : Colors.black87,
                   textAlign: TextAlign.center,
-                  overflow: TextOverflow.ellipsis,
+                  textOverflow: TextOverflow.ellipsis,
                 ),
               ),
             ],
           ),
+          
           const SizedBox(height: 8),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: isCurrentPlayer ? Colors.amber[700] : Colors.grey[700],
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(
-                  Icons.stars,
-                  color: Colors.white,
-                  size: 16,
-                ),
-                const SizedBox(width: 4),
-                Text(
-                  '${player.wins}',
-                  style: const TextStyle(
+
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            transitionBuilder: (child, animation) {
+              return ScaleTransition(scale: animation, child: child);
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              curve: Curves.easeInOut,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: isCurrentPlayer ? Colors.amber[700] : Colors.grey[700],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.stars,
                     color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                    size: 16,
                   ),
-                ),
-              ],
+                  const SizedBox(width: 4),
+                  Text(
+                    '${player.wins}',
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+          )
         ],
       ),
     );
