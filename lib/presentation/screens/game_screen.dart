@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:guess_turn/presentation/widgets/custom_text.dart';
+import 'package:guess_turn/presentation/widgets/atoms/custom_text.dart';
 import 'package:provider/provider.dart';
 import '../providers/game_provider.dart';
-import '../widgets/player_scoreboard.dart';
-import '../widgets/turn_input.dart';
+import '../widgets/organims/player_scoreboard.dart';
+import '../widgets/organims/turn_input.dart';
 
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});
@@ -79,7 +79,7 @@ class GameScreen extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor.withOpacity(0.1),
+                          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
                             color: Theme.of(context).primaryColor,
@@ -110,31 +110,6 @@ class GameScreen extends StatelessWidget {
                       
                       const SizedBox(height: 30),
                       
-                      // Last guess message
-                      if (gameProvider.lastGuessMessage != null)
-                        Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            color: gameProvider.lastGuessMessage!.contains('ganado')
-                                ? Colors.green.withOpacity(0.1)
-                                : Colors.orange.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: gameProvider.lastGuessMessage!.contains('ganado')
-                                  ? Colors.green
-                                  : Colors.orange,
-                            ),
-                          ),
-                          child: CustomText(
-                            text: gameProvider.lastGuessMessage!,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: gameProvider.lastGuessMessage!.contains('ganado')
-                              ? Colors.green[800]!
-                              : Colors.orange[800]!,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
                     ],
                   ),
                 ),

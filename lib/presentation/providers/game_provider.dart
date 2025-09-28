@@ -8,6 +8,7 @@ class GameProvider with ChangeNotifier {
   int? _secretNumber;
   String? _lastGuessMessage;
   bool _isGameStarted = false;
+  bool _showConfetti = false;
 
   List<Player> get players => _players;
   int get currentPlayerIndex => _currentPlayerIndex;
@@ -15,6 +16,7 @@ class GameProvider with ChangeNotifier {
   int? get secretNumber => _secretNumber;
   String? get lastGuessMessage => _lastGuessMessage;
   bool get isGameStarted => _isGameStarted;
+  bool get showConfetti => _showConfetti;
 
   void setupPlayers(List<String> playerNames) {
     _players = playerNames.map((name) => Player(name: name)).toList();
@@ -36,6 +38,7 @@ class GameProvider with ChangeNotifier {
 
     if (guess == _secretNumber) {
       // Player wins!
+      _showConfetti = true;
       currentPlayer.incrementWins();
       _lastGuessMessage = '¡$currentPlayerName ha ganado! El número era $_secretNumber';
       _startNewRound();
@@ -44,7 +47,10 @@ class GameProvider with ChangeNotifier {
       _lastGuessMessage = '$currentPlayerName adivinó $guess. ¡Incorrecto!';
       _nextPlayer();
     }
-    notifyListeners();
+    Future.delayed(const Duration(seconds: 3), () {
+      _showConfetti = false;
+      notifyListeners();
+    });
   }
 
   void _nextPlayer() {

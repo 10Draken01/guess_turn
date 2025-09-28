@@ -1,75 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:guess_turn/presentation/widgets/custom_text.dart';
-import 'package:provider/provider.dart';
-import '../providers/game_provider.dart';
+import 'package:guess_turn/core/models/player.dart';
+import 'package:guess_turn/presentation/widgets/atoms/custom_text.dart';
 
-class PlayerScoreboard extends StatelessWidget {
-  const PlayerScoreboard({super.key});
+class PlayerCard extends StatelessWidget {
+  final Player player;
+  final bool isCurrentPlayer;
+
+  const PlayerCard({
+    super.key,
+    required this.player,
+    required this.isCurrentPlayer,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<GameProvider>(
-      builder: (context, gameProvider, child) {
-        return Container(
-          width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 15),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.1),
-                blurRadius: 4,
-                offset: const Offset(0, 2),
-              ),
-            ],
-          ),
-          child: Column(
-            children: [
-              const CustomText(
-                text: 'Marcador',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-              ),
-              const SizedBox(height: 15),
-              if (gameProvider.players.length <= 2)
-                Row(
-                  children: gameProvider.players.map((player) => 
-                    Expanded(child: _buildPlayerCard(player, gameProvider.currentPlayer == player))
-                  ).toList(),
-                )
-              else
-                Wrap(
-                  spacing: 10,
-                  runSpacing: 10,
-                  children: gameProvider.players.map((player) => 
-                    SizedBox(
-                      width: (MediaQuery.of(context).size.width - 50) / 2,
-                      child: _buildPlayerCard(player, gameProvider.currentPlayer == player),
-                    )
-                  ).toList(),
-                ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildPlayerCard(player, bool isCurrentPlayer) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: isCurrentPlayer ? Colors.white : Colors.white.withOpacity(0.9),
+        color: isCurrentPlayer ? Colors.white : Colors.white.withValues(alpha: 0.9),
         borderRadius: BorderRadius.circular(12),
         border: isCurrentPlayer 
           ? Border.all(color: Colors.amber, width: 3)
           : null,
+        gradient: const LinearGradient(
+          colors: [Color.fromARGB(255, 253, 253, 253), Color.fromARGB(255, 189, 138, 255)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
         boxShadow: [
           if (isCurrentPlayer)
             BoxShadow(
-              color: Colors.amber.withOpacity(0.5),
+              color: Colors.amber.withValues(alpha: 0.5),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
